@@ -19,11 +19,8 @@ inputBox.insert(0, r'D:\#Work\Sonata')             # Изменять в зав�
 label = tkinter.Label(frame,text="Target Location:")
 label1 = tkinter.Label(frame,text='')
 
-#Mpath = r'D:\#Work\Sonata'
-
 
 def delete(folder, path):
-    #dir_path = folder    # r'D:\#Work\Sonata_1.3\test\Design_NU'
     file_path = os.path.join(path, folder)
     try:
         shutil.rmtree(file_path)
@@ -32,20 +29,15 @@ def delete(folder, path):
 
 def createFolderForTiff(folder, path):
     if not os.path.exists(os.path.join(path, folder)):     #if not (os.path.exists(path+ '\' +folder)):
-        #os.chdir(path)
-        #os.mkdir(folder)
         os.makedirs(os.path.join(path, folder))
 
 # def createLnk(folder, path)
 def createLnk(path):
     s = CreateObject(ShellLink)
-    # s.SetPath(r'D:\#Work\Sonata_1.3\9897\Loader.exe')
     s.SetPath(path + r'\Loader.exe')
     s.SetArguments('-daemon=10000')
-    # s.SetWorkingDirectory(r'D:\#Work\Sonata_1.3\9897\Loader.exe')
     s.SetWorkingDirectory(path + r'\Loader.exe')
     p = s.QueryInterface(IPersistFile)
-    # p.Save(r"D:\#Work\Sonata_1.3\9897\Loader.lnk", True)
     p.Save(path + r'\Loader.lnk', True)
 
 def names(tag):
