@@ -9,6 +9,8 @@ from comtypes.client import CreateObject
 from comtypes.persist import IPersistFile
 from comtypes.shelllink import ShellLink
 
+#pip install pyinstaller Для создания .exe
+
 
 root = tkinter.Tk()                     #Создание окна
 root.geometry('400x260')                #Размер окна
@@ -33,8 +35,7 @@ btn3 = tkinter.Button(f_bot,
 inputBox = tkinter.Entry(f_top, 
                          width = 50)
 inputBox.insert(0, r'D:\#Work\Sonata')             # Изменять в зависимости от того где хотите видеть папку
-#label = tkinter.Label(f_top,
-#                      text="Target Location:")
+
 label1 = tkinter.Label(f_top,
                        text='')
 combo = ttk.Combobox(f_bot)
@@ -83,21 +84,26 @@ def names(tag):
         tag = tag.split('Sonata-')[1]                 # Отрезаем всё после "Sonata-"
         tag = tag[0:3] + '_' + tag.split('_r')[1]     # Вытаскиваем версию и соединяем с символами после "_r"
         tag = tag.split('.')[0]                       # Убираем расширение
+    elif tag.find('Sonata_') != -1 and tag.find('_WINDOWS-X86_') != -1:
+        tag = tag.split('_r')[1]     # Вытаскиваем версию и соединяем с символами после "_r"
+        tag = tag.split('.')[0]                       # Убираем расширение
     else:
         tag = tag[tag.rfind(r"/") +1 :-4]
     return tag
     #pass   # Заменить на всплывающее окно "Не соната"   
     
 def openFolder(path):
-   #os.system(f"start D:\#Work\Sonata")
     os.system(f'start {os.path.realpath(os.path.join(inputBox.get(), path))}')
 
 def startPM(path):
+    os.chdir(os.path.realpath(os.path.join(inputBox.get(), path)))
     os.startfile(os.path.join(inputBox.get(), path) + r'\ProjectManager.exe')
 
+
 def startLoader(path):
+    os.chdir(os.path.realpath(os.path.join(inputBox.get(), path)))
     os.startfile(os.path.join(inputBox.get(), path) + r'\Loader.lnk')
-    
+
 def work():
     label1.configure(text =  'Start work')  
     zipF = zipfile.ZipFile(tkinter.filedialog.askopenfile().name)
@@ -112,7 +118,7 @@ def work():
 
     tag = names(tag) 
     
-    #ExtractPath = inputBox.get()
+    ExtractPath = inputBox.get()
     Folder = tag
    
     delete(Folder, ExtractPath)                             # Удаление папки    
@@ -137,7 +143,6 @@ dirContent(inputBox.get())
 inputBox.pack()
 btn.pack()
 label1.pack()
-#frame.pack()
 combo.pack(side = TOP, padx = 1, pady = 1)
 btn3.pack(side = TOP, padx = 1, pady = 1 )
 btn1.pack(side = TOP, padx = 1, pady = 1)
