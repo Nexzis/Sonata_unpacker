@@ -133,7 +133,7 @@ def work():
     
     dirContent(ExtractPath)                                 # получение содержимого для всплывающего меню
     
-    label1.configure(text =  ('Done, Path: ', str(ExtractPathfull)))
+    label1.configure(text =  'Done. Path: ' + str(ExtractPathfull))
     return ExtractPathfull
 
     
