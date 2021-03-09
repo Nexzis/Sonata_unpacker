@@ -34,7 +34,7 @@ btn3 = tkinter.Button(f_bot,
                       command = lambda: openFolder(combo.get()))
 inputBox = tkinter.Entry(f_top, 
                          width = 50)
-inputBox.insert(0, r'D:\#Work\Sonata')             # Изменять в зависимости от того где хотите видеть папку
+inputBox.insert(0, os.path.abspath(os.path.dirname(__file__)))             # Изменять в зависимости от того где хотите видеть папку
 
 label1 = tkinter.Label(f_top,
                        text='')
@@ -48,6 +48,7 @@ def delete(folder, path):
     try:
         shutil.rmtree(file_path)
     except OSError as e:
+        label1.configure(text =  'Failed. Loader or PM still worked. Close it and repeat')
         pass
 
 def createFolderForTiff(folder, path):
@@ -105,7 +106,7 @@ def startLoader(path):
     os.startfile(os.path.join(inputBox.get(), path) + r'\Loader.lnk')
 
 def work():
-    label1.configure(text =  'Start work')  
+    label1.configure(text =  'Choose file')  
     zipF = zipfile.ZipFile(tkinter.filedialog.askopenfile().name)
     #label1.configure(text =  str(zipF.filename))        # Отдаёт имя архива с расширением
     #label1.configure(text =  str(zipF.namelist()))      # Отдаёт имя содержимого архива , если указать [0] то первый элемент итд
@@ -120,7 +121,8 @@ def work():
     
     ExtractPath = inputBox.get()
     Folder = tag
-   
+    
+    # label1.configure(text =  'Processing...')  # Пропускает данный вывод информации
     delete(Folder, ExtractPath)                             # Удаление папки    
  
     createFolderForTiff(Folder, ExtractPath)                # Создание папки 

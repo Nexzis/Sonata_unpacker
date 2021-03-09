@@ -1,0 +1,3 @@
+pyinstaller --onefile --icon=icon.ico --noconsole "_Sonata_unpacker.py"
+
+cd /d D:\#Work\Sonata_unpacker
