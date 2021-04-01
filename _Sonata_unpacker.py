@@ -14,30 +14,44 @@ from comtypes.shelllink import ShellLink
 
 
 root = tkinter.Tk()                     #Создание окна
-root.geometry('400x300')                #Размер окна
+root.geometry('345x295')                #Размер окна
 root.title("Sonata Unzipper")           #Заголовок окна
-f_top = LabelFrame(root, height=100, width=400, text='Target Location')
-f_bot = LabelFrame(root, height=100, width=400, text='Actions')
+f_top = LabelFrame(root, height=100, width=370, text='Target Location')
+f_bot = LabelFrame(root, height=100, width=370, text='Actions')
 f_top.pack(side = TOP, padx=5, pady=5, ipadx=5, ipady=5)
 f_bot.pack(side = TOP, padx=5, pady=5, ipadx=5, ipady=5)
+f_bot1 = LabelFrame(f_bot, height=30, width=300)
 
-btn = tkinter.Button(f_top, 
+size = 8
+image_delete_raw = tkinter.PhotoImage(file = 'Pics/5.png' )
+image_delete = image_delete_raw.subsample(size,size)
+image_update_raw = tkinter.PhotoImage(file = 'Pics/1.png' )
+image_update = image_update_raw.subsample(size,size)
+image_open_raw   = tkinter.PhotoImage(file = 'Pics/3.png' )
+image_open   = image_open_raw.subsample(size,size)
+image_PM_raw   = tkinter.PhotoImage(file = 'Pics/2.png' )
+image_PM   = image_PM_raw.subsample(size,size)
+image_L_raw   = tkinter.PhotoImage(file = 'Pics/4.png' )
+image_L   = image_L_raw.subsample(size,size)
+
+
+btn = tkinter.Button(f_top, activebackground = 'black', 
                      text = 'Choose & Extract' , 
                      command = lambda: work())
-btn1 = tkinter.Button(f_bot, 
-                      text = 'Start Loader' , 
+btn1 = tkinter.Button(f_bot, width = 118, 
+                      text = 'Start Loader' , image =  image_L, compound = LEFT,
                       command = lambda: startLoader(combo.get()))
-btn2 = tkinter.Button(f_bot, 
-                      text = 'Start PM' , 
+btn2 = tkinter.Button(f_bot,  width = 118, 
+                      text = 'Start PM' ,  image =  image_PM, compound = LEFT,
                       command = lambda: startPM(combo.get()))
-btn3 = tkinter.Button(f_bot, 
-                      text = 'Open Folder' , 
+btn3 = tkinter.Button(f_bot1, 
+                      text = 'Open Folder' , image =  image_open, 
                       command = lambda: openFolder(combo.get()))
-btn4 = tkinter.Button(f_bot, 
-                      text = 'Update' , 
+btn4 = tkinter.Button(f_bot1, 
+                      text = 'Update' , image =  image_update,
                       command = lambda: dirContent(os.path.abspath(os.path.dirname(__file__))))  
-btn5 = tkinter.Button(f_bot, 
-                      text = 'Delete Folder' , 
+btn5 = tkinter.Button(f_bot1, 
+                      text = 'Delete Folder' ,  image =  image_delete,
                       command = lambda: delete(combo.get() , inputBox.get() ))
 
 inputBox = tkinter.Entry(f_top, 
@@ -46,9 +60,10 @@ inputBox.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 label1 = tkinter.Label(f_top,
                        text='')
-combo = ttk.Combobox(f_bot)
+combo = ttk.Combobox(f_bot, 
+                         width = 46)
 
-
+#-----------------------------------
 ExtractPath = inputBox.get()
 
 def delete(folder, path):
@@ -142,15 +157,18 @@ def work():
     
 dirContent(inputBox.get())
 
+#-----------------------------------
 inputBox.pack()
 btn.pack()
 label1.pack()
 combo.pack(side = TOP, padx = 1, pady = 1)
-btn3.pack(side = TOP, padx = 1, pady = 1 )
-btn4.pack(side = TOP, padx = 1, pady = 1 )
-btn5.pack(side = TOP, padx = 1, pady = 1 )
-btn1.pack(side = TOP, padx = 1, pady = 1)
-btn2.pack(side = TOP, padx = 1, pady = 1)
+f_bot1.pack(side = TOP, padx=1, pady=1, ipadx=1, ipady=1)
+btn1.pack(side = TOP, padx = 2, pady = 1)
+btn2.pack(side = TOP, padx = 2, pady = 1)
+btn3.pack(side = LEFT, padx = 1, pady = 1 )
+btn4.pack(side = LEFT, padx = 1, pady = 1 )
+btn5.pack(side = LEFT, padx = 1, pady = 1 )
+
 
 
 root.mainloop()
