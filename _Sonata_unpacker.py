@@ -2,6 +2,7 @@ import zipfile                      # Для распаковки
 import tkinter
 from tkinter import *
 from tkinter import ttk
+from _tkinter import TclError
 import tkinter.filedialog           # Для диалога
 import os, shutil                   # Для операций удаления, создания папок
 import comtypes                     # pip install comtypes
@@ -13,13 +14,13 @@ from comtypes.shelllink import ShellLink
 
 
 root = tkinter.Tk()                     #Создание окна
-root.geometry('400x260')                #Размер окна
+root.geometry('400x300')                #Размер окна
 root.title("Sonata Unzipper")           #Заголовок окна
 f_top = LabelFrame(root, height=100, width=400, text='Target Location')
 f_bot = LabelFrame(root, height=100, width=400, text='Actions')
 f_top.pack(side = TOP, padx=5, pady=5, ipadx=5, ipady=5)
 f_bot.pack(side = TOP, padx=5, pady=5, ipadx=5, ipady=5)
-#frame = tkinter.Frame(root)
+
 btn = tkinter.Button(f_top, 
                      text = 'Choose & Extract' , 
                      command = lambda: work())
@@ -32,9 +33,16 @@ btn2 = tkinter.Button(f_bot,
 btn3 = tkinter.Button(f_bot, 
                       text = 'Open Folder' , 
                       command = lambda: openFolder(combo.get()))
+btn4 = tkinter.Button(f_bot, 
+                      text = 'Update' , 
+                      command = lambda: dirContent(os.path.abspath(os.path.dirname(__file__))))  
+btn5 = tkinter.Button(f_bot, 
+                      text = 'Delete Folder' , 
+                      command = lambda: delete(combo.get() , inputBox.get() ))
+
 inputBox = tkinter.Entry(f_top, 
                          width = 50)
-inputBox.insert(0, os.path.abspath(os.path.dirname(__file__)))             # Изменять в зависимости от того где хотите видеть папку
+inputBox.insert(0, os.path.abspath(os.path.dirname(__file__)))             
 
 label1 = tkinter.Label(f_top,
                        text='')
@@ -50,7 +58,8 @@ def delete(folder, path):
     except OSError as e:
         label1.configure(text =  'Failed. Loader or PM still worked. Close it and repeat')
         pass
-
+    dirContent(path)
+    
 def createFolderForTiff(folder, path):
     if not os.path.exists(os.path.join(path, folder)):     #if not (os.path.exists(path+ '\' +folder)):
         os.makedirs(os.path.join(path, folder))
@@ -63,22 +72,14 @@ def createLnk(path):
     p = s.QueryInterface(IPersistFile)
     p.Save(path + r'\Loader.lnk', True)
 
-'''
-Этот синтаксис работать не хочет.
-    s.SetPath(os.path.join(path, r'\Loader.exe'))
-
-    s.SetWorkingDirectory(os.path.join(path, r'\Loader.exe')) 
-
-    p.Save(os.path.join(path, r'\Loader.exe'), True)
-'''
-
-
 def dirContent(path):
     content = [f for f in os.listdir(path) if not os.path.isfile(os.path.join(path, f))]
-    
-    #combo.configure(values = content, postcommand=createLnk)         # Удалить если не нужна
     combo.configure(values = content)
-    combo.current(0)
+    try:
+        combo.current(0)
+    except TclError:
+        pass
+    return content
 
 def names(tag):
     if tag.find('Sonata-') != -1 and tag.find('_WINDOWS-X86_') != -1:
@@ -141,12 +142,13 @@ def work():
     
 dirContent(inputBox.get())
 
-
 inputBox.pack()
 btn.pack()
 label1.pack()
 combo.pack(side = TOP, padx = 1, pady = 1)
 btn3.pack(side = TOP, padx = 1, pady = 1 )
+btn4.pack(side = TOP, padx = 1, pady = 1 )
+btn5.pack(side = TOP, padx = 1, pady = 1 )
 btn1.pack(side = TOP, padx = 1, pady = 1)
 btn2.pack(side = TOP, padx = 1, pady = 1)
 
