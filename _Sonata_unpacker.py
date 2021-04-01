@@ -96,13 +96,22 @@ def createLnk(path):
     p.Save(path + r'\Loader.lnk', True)
 
 def dirContent(path):
-    content = [f for f in os.listdir(path) if not os.path.isfile(os.path.join(path, f))]
-    combo.configure(values = content)
+    #content = [f for f in os.listdir(path) if not os.path.isfile(os.path.join(path, f))]
+    content_all = []
+    content_sonata = []
+    for f in os.listdir(path):
+        if not os.path.isfile(os.path.join(path, f)):
+            content_all.append(f)
+    for g in content_all:
+        if (os.path.exists(os.path.join(path, g,'Loader.exe')) and os.path.exists(os.path.join(path, g,'ProjectManager.exe'))):
+            content_sonata.append(g)
+        
+    combo.configure(values = content_sonata)
     try:
         combo.current(0)
     except TclError:
         pass
-    return content
+    return content_sonata
 
 def names(tag):
     if tag.find('Sonata-') != -1 and tag.find('_WINDOWS-X86_') != -1:
