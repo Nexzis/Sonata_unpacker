@@ -14,7 +14,7 @@ from comtypes.shelllink import ShellLink
 
 
 root = tkinter.Tk()                     #Создание окна
-root.geometry('345x345')                #Размер окна
+root.geometry('345x395')                #Размер окна
 root.title("Sonata Unzipper")           #Заголовок окна
 root.resizable(False, False)
 f_top = LabelFrame(root, height=100, width=370, text='Target Location')
@@ -37,7 +37,8 @@ image_L_raw   = tkinter.PhotoImage(file = pic_path + '4.png' )
 image_L   = image_L_raw.subsample(size,size)
 image_Ex_raw   = tkinter.PhotoImage(file = pic_path + '6.png' )
 image_Ex   = image_Ex_raw.subsample(size,size)
-
+image_SL_raw   = tkinter.PhotoImage(file = pic_path + '7.png' )
+image_SL   = image_SL_raw.subsample(size,size)
 
 btn = tkinter.Button(f_top, width = 140, height = 40, anchor='center', 
                       text = ' Choose & Extract' , 
@@ -63,6 +64,10 @@ btn5 = tkinter.Button(f_bot1, width = 40, height = 40, anchor='center',
                       text = ' Delete Folder' ,
                       image =  image_delete,
                       command = lambda: delete(combo.get() , inputBox.get() ))
+btn6 = tkinter.Button(f_bot, width = 140, height = 40, anchor='center',
+                      text = ' Stop Loaders' ,
+                      image =  image_SL, compound = LEFT,
+                      command = lambda: stopLoaders())
 
 inputBox = tkinter.Entry(f_top, 
                          width = 50)
@@ -84,7 +89,21 @@ def delete(folder, path):
         label1.configure(text =  'Failed. Loader or PM still worked. Close it and repeat')
         pass
     dirContent(path)
-    
+
+def openFolder(path):
+    os.system(f'start {os.path.realpath(os.path.join(inputBox.get(), path))}')
+
+def startPM(path):
+    os.chdir(os.path.realpath(os.path.join(inputBox.get(), path)))
+    os.startfile(os.path.join(inputBox.get(), path) + r'\ProjectManager.exe')
+
+def startLoader(path):
+    os.chdir(os.path.realpath(os.path.join(inputBox.get(), path)))
+    os.startfile(os.path.join(inputBox.get(), path) + r'\Loader.lnk')
+
+def stopLoaders():
+    os.system("TASKKILL /F /IM " + "Loader.exe")
+
 def createFolderForTiff(folder, path):
     if not os.path.exists(os.path.join(path, folder)):     #if not (os.path.exists(path+ '\' +folder)):
         os.makedirs(os.path.join(path, folder))
@@ -127,18 +146,6 @@ def names(tag):
         tag = tag[tag.rfind(r"/") +1 :-4]
     return tag
     #pass   # Заменить на всплывающее окно "Не соната"   
-    
-def openFolder(path):
-    os.system(f'start {os.path.realpath(os.path.join(inputBox.get(), path))}')
-
-def startPM(path):
-    os.chdir(os.path.realpath(os.path.join(inputBox.get(), path)))
-    os.startfile(os.path.join(inputBox.get(), path) + r'\ProjectManager.exe')
-
-
-def startLoader(path):
-    os.chdir(os.path.realpath(os.path.join(inputBox.get(), path)))
-    os.startfile(os.path.join(inputBox.get(), path) + r'\Loader.lnk')
 
 def work():
     label1.configure(text =  'Choose file')  
@@ -182,6 +189,7 @@ btn.pack(padx = 1, pady = 1)
 label1.pack(padx = 1, pady = 1)
 combo.pack(side = TOP, padx = 1, pady = 1)
 f_bot1.pack(side = TOP, padx=1, pady=1, ipadx=1, ipady=1)
+btn6.pack(side = TOP, padx = 2, pady = 1)
 btn1.pack(side = TOP, padx = 2, pady = 1)
 btn2.pack(side = TOP, padx = 2, pady = 1)
 btn3.pack(side = LEFT, padx = 1, pady = 1 )
