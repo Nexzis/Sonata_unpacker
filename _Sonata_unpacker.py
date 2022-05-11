@@ -19,8 +19,7 @@ root.title("Sonata Unzipper")           #Заголовок окна
 root.resizable(False, False)
 f_top = LabelFrame(root, height=100, width=370, text='Target Location')
 f_bot = LabelFrame(root, height=100, width=370, text='Actions')
-f_top.pack(side = TOP, padx=5, pady=5, ipadx=5, ipady=5)
-f_bot.pack(side = TOP, padx=5, pady=5, ipadx=5, ipady=5)
+
 f_bot1 = LabelFrame(f_bot, height=30, width=300)
 
 size = 6
@@ -184,6 +183,8 @@ def work():
 dirContent(inputBox.get())
 
 #-----------------------------------
+f_top.pack(side = TOP, padx=5, pady=5, ipadx=5, ipady=5)
+f_bot.pack(side = TOP, padx=5, pady=5, ipadx=5, ipady=5)
 inputBox.pack(padx = 1, pady = 1)
 btn.pack(padx = 1, pady = 1)
 label1.pack(padx = 1, pady = 1)
@@ -199,3 +200,4 @@ btn5.pack(side = LEFT, padx = 1, pady = 1 )
 
 
 root.mainloop()
+
