@@ -17,9 +17,10 @@ root = tkinter.Tk()                     #Создание окна
 root.geometry('345x395')                #Размер окна
 root.title("Sonata Unzipper")           #Заголовок окна
 root.resizable(False, False)
-f_top = LabelFrame(root, height=100, width=370, text='Target Location')
-f_bot = LabelFrame(root, height=100, width=370, text='Actions')
-
+f_top = LabelFrame(root, height=100, width=370,
+                   text='Target Location')
+f_bot = LabelFrame(root, height=100, width=370,
+                   text='Actions')
 f_bot1 = LabelFrame(f_bot, height=30, width=300)
 
 size = 6
