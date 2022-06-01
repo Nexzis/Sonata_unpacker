@@ -9,7 +9,9 @@ import comtypes                     # pip install comtypes
 from comtypes.client import CreateObject
 from comtypes.persist import IPersistFile
 from comtypes.shelllink import ShellLink
-
+import socket
+from subprocess import check_output
+import inspect
 #pip install pyinstaller Для создания .exe
 
 
@@ -71,12 +73,19 @@ btn6 = tkinter.Button(f_bot, width = 140, height = 40, anchor='center',
 
 inputBox = tkinter.Entry(f_top, 
                          width = 50)
-inputBox.insert(0, os.path.abspath(os.path.dirname(__file__)))             
+inputBox.insert(0, os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))))             
 
 label1 = tkinter.Label(f_top,
                        text='')
 combo = ttk.Combobox(f_bot, 
                          width = 46)
+
+#-----------------------------------
+#def get_ip_address():
+#    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+#    s.connect(("8.8.8.8", 80))
+#    root.title(str(s.getsockname()[0])) 
+#get_ip_address()
 
 #-----------------------------------
 ExtractPath = inputBox.get()
@@ -111,7 +120,7 @@ def createFolderForTiff(folder, path):
 def createLnk(path):
     s = CreateObject(ShellLink)
     s.SetPath(path + r'\Loader.exe')
-    s.SetArguments('-daemon=10000')
+    s.SetArguments('-daemon=10000 -verification_interval=600 -settings_update_interval=5')
     s.SetWorkingDirectory(path + r'\Loader.exe')
     p = s.QueryInterface(IPersistFile)
     p.Save(path + r'\Loader.lnk', True)
@@ -182,6 +191,7 @@ def work():
 
     
 dirContent(inputBox.get())
+
 
 #-----------------------------------
 f_top.pack(side = TOP, padx=5, pady=5, ipadx=5, ipady=5)
